@@ -31,6 +31,17 @@
     <script type="text/javascript" src="{% static 'words/js/lib/jquery-2.2.4.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'words/js/lib/nouislider.min.js' %}"></script>
     <script>
+        var last_word_id = {{ last_word.id }};
+
+        setInterval(function() {
+            jQuery.ajax({
+                            url: "{% url 'get_last_word' %}",
+                        }).done(function(data) {
+                            if (data > last_word_id) 
+                                location.reload();
+                    });
+        }, 2000);
+
         var update_timeline = function(start, stop) {
             $(".word").each(function() {
                 var wid = parseInt($(this).attr("data-wid"));
