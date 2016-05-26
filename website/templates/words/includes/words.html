@@ -1,9 +1,20 @@
 {% for word in words %}
     <div class="word" data-wid="{{ word.id }}" style="
+            {% if word.id < start or word.id > stop %}
+                display: none;
+            {% endif %}
             font-family: 'American Typewriter';
             position: absolute;
-            top: {{ word.top }}%;
-            left: {{ word.left }}%;
+            {% if word.top < 50 %} 
+                top: {{ word.top }}%;
+            {% else %}
+                bottom: {{ word.top|add:-50 }}%;
+            {% endif %}
+            {% if word.left < 50 %} 
+                left: {{ word.left }}%;
+            {% else %}
+                right: {{ word.left|add:-50 }}%;
+            {% endif %}
             font-size: {{ word.size }}em;
             z-index: {{ word.zindex }};
             {% if word == last_word %}

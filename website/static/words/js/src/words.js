@@ -15,6 +15,9 @@ var refresh_words = function() {
             }).done(function(data) {
         $("#words-content").html(data);
         refresh_data();
+        if (last_wid == range.noUiSlider.get()[1])
+            wstop = parseInt(data);
+        update_timeline();
     });
 }
 
@@ -70,10 +73,6 @@ $(document).ready(function() {
                     }).done(function(data) {
                         if (data > last_wid) {
                             refresh_words();
-                            if (last_wid == range.noUiSlider.get()[1])
-                                wstop = data;
-                            last_wid = parseInt(data);
-                            update_timeline();
                         }
                 });
     }, 2000);
