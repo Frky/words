@@ -1,0 +1,16 @@
+{% for word in words %}
+    <div class="word" data-wid="{{ word.id }}" style="
+            font-family: 'American Typewriter';
+            position: absolute;
+            top: {{ word.top }}%;
+            left: {{ word.left }}%;
+            font-size: {{ word.size }}em;
+            z-index: {{ word.zindex }};
+            {% if word == last_word %}
+                color: red;
+            {% endif %}
+        ">{{ word.word }}</div>
+{% endfor %}
+<input type="hidden" value="{{ start }}" id="wstart" />
+<input type="hidden" value="{{ stop }}" id="wstop" />
+<input type="hidden" value="{{ last_word.id }}" id="last_wid" />

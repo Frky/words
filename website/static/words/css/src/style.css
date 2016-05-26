@@ -1,0 +1,62 @@
+@font-face {
+    font-family: "American Typewriter";
+    src: url("../../fonts/AmericanTypewriter.ttc");
+}
+.hidden {
+    display: none;
+}
+
+#timeline {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+}
+#words-content {
+    position: absolute;
+    top: 55px;
+    left: 0px;
+    right: 0px;
+    bottom: 40px; 
+}
+#addword {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 55px;
+    text-align: center;
+    font-family: "American Typewriter";
+}
+#addword input {
+    border-color: black;
+    border-width: 1px;
+    font-family: "American Typewriter";
+    height: 25px;
+    width: 25%;
+    margin: 0px;
+    margin-top: 15px;
+    padding: 0px;
+    padding-left: 5px;
+}
+#addword input[type="submit"] {
+    background-color: black;
+    color: white;
+}
+.noUi-target {
+    height: 8px;
+}
+.noUi-connect {
+    background-color: black;
+}
+.noUi-handle {
+    zoom: 50%;
+}
+.noUi-value {
+    font-size: 0.8em;
+    font-family: "American Typewriter";
+    color: black;
+}
+.noUi-marker {
+    display: none;
+}

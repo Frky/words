@@ -31,10 +31,11 @@ def index(req):
 def get_last_word(req):
     return HttpResponse(Word.objects.latest("id").id)
 
-## def ajax_words(req):
-##     tpl = "words/index.html"
-##     ctxt = dict()
-##     ctxt["last_word"] = Word.objects.latest("id")
-##     ctxt["start"] = max(ctxt["last_word"].id - 50, Word.objects.first().id)
-##     ctxt["stop"] = ctxt["last_word"].id
-##     return render(req, tpl, ctxt)
+def ajax_words(req):
+    tpl = "words/includes/words.html"
+    ctxt = dict()
+    ctxt["words"] = Word.objects.all()
+    ctxt["last_word"] = Word.objects.latest("id")
+    ctxt["start"] = max(ctxt["last_word"].id - 50, Word.objects.first().id)
+    ctxt["stop"] = ctxt["last_word"].id
+    return render(req, tpl, ctxt)
