@@ -60,3 +60,9 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+.swp
+.DS_Store
+
+words/settings/local.py
+words/db/words.db
