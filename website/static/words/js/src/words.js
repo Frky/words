@@ -18,22 +18,17 @@ var refresh_words = function() {
     });
 }
 
-var update_timeline = function(start, stop) {
+var update_timeline = function() {
     $(".word").each(function() {
         var wid = parseInt($(this).attr("data-wid"));
-        if (wid < start || wid > stop)
+        if (wid < wstart || wid > wstop)
             $(this).fadeOut();
         else
             $(this).fadeIn();
     });
 
-}
-
-$(document).ready(function() {
-    range = $("#timeline")[0];
-    console.log(range);
-
-    refresh_data();
+    if (range.noUiSlider != undefined) 
+        range.noUiSlider.destroy();
 
     noUiSlider.create(range, {
         start: [ wstart , wstop ], // Handle start position
@@ -44,7 +39,7 @@ $(document).ready(function() {
         behaviour: 'tap-drag', // Move handle on tap, bar is draggable
         range: { // Slider can select '0' to '100'
             'min': 1,
-            'max': wstop
+            'max': last_wid
         },
         pips: { // Show a scale with the slider
             mode: 'positions',
@@ -55,16 +50,30 @@ $(document).ready(function() {
     });
 
     range.noUiSlider.on('change', function() {
-        update_timeline(range.noUiSlider.get()[0], range.noUiSlider.get()[1]);
+        wstart = range.noUiSlider.get()[0];
+        wstop = range.noUiSlider.get()[1];
+        update_timeline();
     });
+
+}
+
+$(document).ready(function() {
+    range = $("#timeline")[0];
+
+    refresh_data();
+
+    update_timeline();
 
     setInterval(function() {
         jQuery.ajax({
                         url: "get_last_word",
                     }).done(function(data) {
                         if (data > last_wid) {
-                            last_wid = data;
                             refresh_words();
+                            if (last_wid == range.noUiSlider.get()[1])
+                                wstop = data;
+                            last_wid = parseInt(data);
+                            update_timeline();
                         }
                 });
     }, 2000);
