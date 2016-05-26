@@ -36,6 +36,13 @@ def ajax_words(req):
     ctxt = dict()
     ctxt["words"] = Word.objects.all()
     ctxt["last_word"] = Word.objects.latest("id")
-    ctxt["start"] = max(ctxt["last_word"].id - 50, Word.objects.first().id)
+    if "wsize" in req.GET.keys():
+        try:
+            wsize = int(req.GET["wsize"])
+        except Exception:
+            wsize = 50
+    else:
+        wsize = 50
+    ctxt["start"] = max(ctxt["last_word"].id - wsize, 0)
     ctxt["stop"] = ctxt["last_word"].id
     return render(req, tpl, ctxt)

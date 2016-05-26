@@ -1,5 +1,6 @@
 var last_wid;
 var wstart, wstop;
+var wdw_sz;
 var range;
 
 var refresh_data = function() {
@@ -11,7 +12,7 @@ var refresh_data = function() {
 
 var refresh_words = function() {
     $.ajax({
-                url: "ajax_words",
+                url: "ajax_words?wsize=" + wdw_sz,
             }).done(function(data) {
         $("#words-content").html(data);
         refresh_data();
@@ -22,19 +23,11 @@ var refresh_words = function() {
 }
 
 var update_timeline = function() {
-    $(".word").each(function() {
-        var wid = parseInt($(this).attr("data-wid"));
-        if (wid < wstart || wid > wstop)
-            $(this).fadeOut();
-        else
-            $(this).fadeIn();
-    });
-
     if (range.noUiSlider != undefined) 
         range.noUiSlider.destroy();
 
     noUiSlider.create(range, {
-        start: [ wstart , wstop ], // Handle start position
+        start: [ wstop - wdw_sz , wstop ], // Handle start position
         step: 1, // Slider moves in increments of '10'
         margin: 0, // Handles must be more than '20' apart
         connect: true, // Display a colored bar between the handles
@@ -55,7 +48,16 @@ var update_timeline = function() {
     range.noUiSlider.on('change', function() {
         wstart = range.noUiSlider.get()[0];
         wstop = range.noUiSlider.get()[1];
-        update_timeline();
+        wdw_sz = wstop - wstart;
+
+        $(".word").each(function() {
+            var wid = parseInt($(this).attr("data-wid"));
+            if (wid < (wstop - wdw_sz) || wid > wstop)
+                $(this).fadeOut();
+            else
+                $(this).fadeIn();
+        });
+
     });
 
 }
@@ -65,6 +67,7 @@ $(document).ready(function() {
 
     refresh_data();
 
+    wdw_sz = wstop - wstart;
     update_timeline();
 
     setInterval(function() {
